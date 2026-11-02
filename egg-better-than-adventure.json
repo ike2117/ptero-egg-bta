@@ -1,57 +1,57 @@
 {
-    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
-    "meta": {
-        "version": "PTDL_v2",
-        "update_url": null
+  "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY CALAGOPUS PANEL",
+  "meta": {
+    "version": "PTDL_v2",
+    "update_url": null
+  },
+  "exported_at": "2026-11-02T20:10:19.310Z",
+  "name": "Better than Adventure!",
+  "author": "ike2117spam@gmail.com",
+  "description": "Setup for the Better than Adventure! https://www.betterthanadventure.net/ modpack\nhttps://github.com/ike2117/ptero-egg-bta",
+  "features": [
+    "eula",
+    "pid_limit"
+  ],
+  "docker_images": {
+    "Java 17": "ghcr.io/ptero-eggs/yolks:java_17",
+    "Java 21": "ghcr.io/ptero-eggs/yolks:java_21",
+    "Java 25": "ghcr.io/ptero-eggs/yolks:java_25"
+  },
+  "file_denylist": [],
+  "startup": "java -Xms128M -Xmx$(({{SERVER_MEMORY}}-1024))M $([[ -f user_jvm_args.txt ]] && printf %s \"@user_jvm_args.txt\") -jar $([[ -f fabric-server-launch.jar ]] && printf \"fabric-server-launch.jar\" || printf \"server.jar\") --nogui",
+  "config": {
+    "files": "{\"server.properties\":{\"parser\":\"properties\",\"create_file\":true,\"find\":{\"server-ip\":\"0.0.0.0\",\"server-port\":\"{{server.build.default.port}}\"}}}",
+    "startup": "{\"done\":[\")! For help, type \"],\"strip_ansi\":false}",
+    "logs": "{}",
+    "stop": "stop"
+  },
+  "scripts": {
+    "installation": {
+      "script": "#!/bin/ash\r\n\r\napk update\r\napk add curl unzip\r\n\r\nmkdir -p /mnt/server\r\ncd /mnt/server\r\ntouch user_jvm_args.txt\r\n\r\nif [ \"$BUILD_VERSION\" == \"babric\" ]; then\r\n    curl -SL -o BTA_Babric_$BTA_VERSION.zip \"https://github.com/Turnip-Labs/bta-fabric-instance-repo/releases/download/v$BTA_VERSION/bta_fabric_server_$BTA_VERSION.zip\"\r\n    unzip BTA_Babric_$BTA_VERSION.zip\r\n    echo \"-Dfabric.runtimeMappingNamespace=official\" > user_jvm_args.txt\r\nelif [ \"$BUILD_VERSION\" == \"release\" ]; then\r\n    curl -SL -O \"https://downloads.betterthanadventure.net/bta-server/release/v$BTA_VERSION/server.jar\"\r\nelse\r\n    curl -SL -O \"https://downloads.betterthanadventure.net/bta-server/$BUILD_VERSION/$BTA_VERSION/server.jar\"\r\nfi\r\n\r\necho -e \"Install Complete\"",
+      "container": "alpine:latest",
+      "entrypoint": "ash"
+    }
+  },
+  "variables": [
+    {
+      "name": "Relase Build",
+      "description": "Which release build to use",
+      "env_variable": "BUILD_VERSION",
+      "default_value": "release",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|in:release,babric,prerelease,nightly",
+      "field_type": "text"
     },
-    "exported_at": "2026-02-11T10:16:48-05:00",
-    "name": "Better than Adventure!",
-    "author": "ike2117spam@gmail.com",
-    "description": "Setup for the Better than Adventure! https:\/\/www.betterthanadventure.net\/ modpack",
-    "features": [
-        "eula",
-        "pid_limit"
-    ],
-    "docker_images": {
-        "Java 17": "ghcr.io\/ptero-eggs\/yolks:java_17",
-        "Java 21": "ghcr.io\/ptero-eggs\/yolks:java_21",
-        "Java 25": "ghcr.io\/ptero-eggs\/yolks:java_25"
-    },
-    "file_denylist": [],
-    "startup": "java -Xms128M -Xmx{{SERVER_MEMORY}}M $([[ -f user_jvm_args.txt ]] && printf %s \"@user_jvm_args.txt\") -jar $([[ -f fabric-server-launch.jar ]] && printf \"fabric-server-launch.jar\" || printf \"server.jar\") --nogui",
-    "config": {
-        "files": "{\r\n    \"server.properties\": {\r\n        \"parser\": \"properties\",\r\n        \"find\": {\r\n            \"server-ip\": \"0.0.0.0\",\r\n            \"server-port\": \"{{server.build.default.port}}\"\r\n        }\r\n    }\r\n}",
-        "startup": "{\r\n    \"done\": \")! For help, type \",\r\n    \"userInteraction\": [\r\n        \"Go to eula.txt for more info.\"\r\n    ]\r\n}",
-        "logs": "{\r\n    \"custom\": false,\r\n    \"location\": \"logs\/latest.log\"\r\n}",
-        "stop": "stop"
-    },
-    "scripts": {
-        "installation": {
-            "script": "#!\/bin\/ash\r\n\r\napk update\r\napk add curl unzip\r\n\r\nmkdir -p \/mnt\/server\r\ncd \/mnt\/server\r\ntouch user_jvm_args.txt\r\n\r\nif [ \"$BUILD_VERSION\" == \"babric\" ]; then\r\n    curl -SL -o BTA_Babric_$BTA_VERSION.zip \"https:\/\/github.com\/Turnip-Labs\/bta-fabric-instance-repo\/releases\/download\/v$BTA_VERSION\/bta_fabric_server_$BTA_VERSION.zip\"\r\n    unzip BTA_Babric_$BTA_VERSION.zip\r\n    echo \"-Dfabric.runtimeMappingNamespace=official\" > user_jvm_args.txt\r\nelif [ \"$BUILD_VERSION\" == \"release\" ]; then\r\n    curl -SL -O \"https:\/\/downloads.betterthanadventure.net\/bta-server\/release\/v$BTA_VERSION\/server.jar\"\r\nelse\r\n    curl -SL -O \"https:\/\/downloads.betterthanadventure.net\/bta-server\/$BUILD_VERSION\/$BTA_VERSION\/server.jar\"\r\nfi\r\n\r\necho -e \"Install Complete\"",
-            "container": "alpine:3.23.3",
-            "entrypoint": "ash"
-        }
-    },
-    "variables": [
-        {
-            "name": "Relase Build",
-            "description": "Which release build to use",
-            "env_variable": "BUILD_VERSION",
-            "default_value": "release",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|in:release,babric,prerelease,nightly",
-            "field_type": "text"
-        },
-        {
-            "name": "Version",
-            "description": "Version of Better than Adventure! to download",
-            "env_variable": "BTA_VERSION",
-            "default_value": "7.3_04",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": "required|string|max:20",
-            "field_type": "text"
-        }
-    ]
+    {
+      "name": "Version",
+      "description": "Version of Better than Adventure! to download",
+      "env_variable": "BTA_VERSION",
+      "default_value": "8.0.1",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|max:20",
+      "field_type": "text"
+    }
+  ]
 }
